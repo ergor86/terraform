@@ -11,4 +11,18 @@ terraform {
 provider "aws" {
     region = "us-east-1"
     profile = "aws-cli-sts"
+
+    assume_role {
+    role_arn     = "arn:aws:iam::632872792512:role/role-aws-cli-sts"
+    session_name = "terraform-session"
+    }
+}
+
+resource "aws_instance" "bia-terraform" {
+    ami="ami-02f3f602d23f1659d"
+    instance_type="t3.micro"
+    tags = {
+        Name = "bia-terraform"
+        ambiente = "dev"
+    }
 }
