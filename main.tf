@@ -25,4 +25,8 @@ resource "aws_instance" "bia-terraform" {
         Name = "bia-terraform"
         ambiente = "dev"
     }
+    vpc_security_group_ids = ["sg-00441de9cbdc2d140"]
+    root_block_device {
+        volume_size = 8
+    }
 }
