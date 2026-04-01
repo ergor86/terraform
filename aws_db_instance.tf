@@ -7,7 +7,7 @@ resource "aws_db_instance" "bia-db-tf" {
   allow_major_version_upgrade           = null
   apply_immediately                     = null
   auto_minor_version_upgrade            = true
-  availability_zone                     = "us-east-1a"
+  //availability_zone                     = "us-east-1a"
   backup_retention_period               = 1
   backup_target                         = "region"
   backup_window                         = "03:57-04:27"
@@ -59,4 +59,14 @@ resource "aws_db_instance" "bia-db-tf" {
   upgrade_storage_config                = null
   username                              = "postgres"
   vpc_security_group_ids                = [aws_security_group.bia-db.id]
+  db_subnet_group_name                   = aws_db_subnet_group.bia-db-tf-subnet-group.name
+}
+
+resource "aws_db_subnet_group" "bia-db-tf-subnet-group" {
+  name       = "bia-db-tf-subnet-group"
+  subnet_ids = [local.subnet_zona_a, local.subnet_zona_b]
+
+  tags = {
+    Name = "bia-db-tf-subnet-group"
+  }
 }

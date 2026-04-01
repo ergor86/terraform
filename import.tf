@@ -9,7 +9,7 @@ import {
     id = "role-acesso-ssm"
     to = aws_iam_instance_profile.role-acesso-ssm
 }
-*/
+
 
 import {
     id = "sg-0979706c497a7b443"
@@ -35,3 +35,10 @@ import {
     id = "sg-0b2dc64dd6efabd6e"
     to = aws_security_group.bia-ec2
 }
+
+
+import {
+    id = "sg-06b26684d7623b194"
+    to = aws_security_group.bia-servless
+}
+*/

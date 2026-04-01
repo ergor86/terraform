@@ -27,7 +27,7 @@ resource "aws_security_group" "bia-ec2" {
   revoke_rules_on_delete = null
   tags                   = {}
   tags_all               = {}
-  vpc_id                 = "vpc-0dbde5a1a4dbb8487"
+  vpc_id                 = local.vpc_id
 }
 
 resource "aws_security_group" "bia-alb" {
@@ -68,7 +68,7 @@ resource "aws_security_group" "bia-alb" {
   revoke_rules_on_delete = null
   tags                   = {}
   tags_all               = {}
-  vpc_id                 = "vpc-0dbde5a1a4dbb8487"
+  vpc_id                 = local.vpc_id
 }
 
 resource "aws_security_group" "bia-web" {
@@ -119,7 +119,7 @@ resource "aws_security_group" "bia-web" {
   revoke_rules_on_delete = null
   tags                   = {}
   tags_all               = {}
-  vpc_id                 = "vpc-0dbde5a1a4dbb8487"
+  vpc_id                 = local.vpc_id
 }
 
 resource "aws_security_group" "bia-db" {
@@ -142,7 +142,7 @@ resource "aws_security_group" "bia-db" {
     ipv6_cidr_blocks = []
     prefix_list_ids  = []
     protocol         = "tcp"
-    security_groups  = ["sg-06b26684d7623b194"]
+    security_groups  = [aws_security_group.bia-servless.id]
     self             = false
     to_port          = 5432
     }, {
@@ -180,7 +180,7 @@ resource "aws_security_group" "bia-db" {
   revoke_rules_on_delete = null
   tags                   = {}
   tags_all               = {}
-  vpc_id                 = "vpc-0dbde5a1a4dbb8487"
+  vpc_id                 = local.vpc_id
 }
 
 resource "aws_security_group" "bia-dev" {
@@ -231,7 +231,28 @@ resource "aws_security_group" "bia-dev" {
   revoke_rules_on_delete = null
   tags                   = {}
   tags_all               = {}
-  vpc_id                 = "vpc-0dbde5a1a4dbb8487"
+  vpc_id                 = local.vpc_id
+}
+
+resource "aws_security_group" "bia-servless" {
+  description = "acesso do bia servless"
+  egress = [{
+    cidr_blocks      = ["0.0.0.0/0"]
+    description      = ""
+    from_port        = 0
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    protocol         = "-1"
+    security_groups  = []
+    self             = false
+    to_port          = 0
+  }]
+  ingress                = []
+  name                   = "bia-servless"
+  revoke_rules_on_delete = null
+  tags                   = {}
+  tags_all               = {}
+  vpc_id                 = local.vpc_id
 }
 
 //security group que estavam no main.tf
