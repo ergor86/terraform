@@ -22,3 +22,8 @@ output "rds_endpoint" {
   description = "Endpoint da instância RDS criada"
   value       = aws_db_instance.bia-db-tf.endpoint
 }
+
+output "rds_secrets" {
+  description = "Secrets associado ao RDS"
+  value       = one(aws_db_instance.bia-db-tf.master_user_secret).secret_arn
+}
