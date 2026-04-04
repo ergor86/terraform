@@ -27,3 +27,13 @@ output "rds_secrets" {
   description = "Secrets associado ao RDS"
   value       = one(aws_db_instance.bia-db-tf.master_user_secret).secret_arn
 }
+
+output "rds_secrets_name" {
+  description = "Nome do Segredo"
+  value       = data.aws_secretsmanager_secret.bia_db.name
+}
+
+output "bia_ecr_repo_tf_url" {
+  description = "URL do repositório ECR"
+  value = aws_ecr_repository.bia_ecr_repo_tf.repository_url
+}
