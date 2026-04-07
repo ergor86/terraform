@@ -1,12 +1,21 @@
 resource "aws_autoscaling_group" "ecs_asg_tf" {
     name_prefix = "bia-cluster-tf-asg-"
-    max_size = 2
+    max_size = 1
     min_size = 0
     desired_capacity = 1
     launch_template {
         id = aws_launch_template.ecs_ec2_tf.id
         version = aws_launch_template.ecs_ec2_tf.latest_version
     }
+
+    //O bloco lifecycle é usado para ignorar mudanças na configuração do desired_capacity, 
+    //o que significa que mesmo que o desired_capacity seja alterado manualmente ou por outro processo, 
+    //o Terraform não irá tentar corrigir essa mudança, 
+    //permitindo que o ASG ajuste a capacidade conforme necessário sem interferência do Terraform.
+    lifecycle { 
+        ignore_changes = [desired_capacity]
+    }
+
     vpc_zone_identifier = [local.subnet_zona_a, local.subnet_zona_b]
     health_check_type = "EC2"
     health_check_grace_period = 0
